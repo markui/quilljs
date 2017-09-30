@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django_extensions',
 
     # Custom
-    'editor',
+    'quill',
 
 ]
 
