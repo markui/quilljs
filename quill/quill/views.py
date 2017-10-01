@@ -6,7 +6,8 @@ from django.shortcuts import render
 
 # 새로운 post 생성
 def write(request):
-    return HttpResponse('opens a text editor to publish/save posts')
+    return render(request, 'quill/post_form.html')
+    # return HttpResponse('opens a text editor to publish/save posts')
 
 # 저장된 post_list page
 def ready_list(request):
