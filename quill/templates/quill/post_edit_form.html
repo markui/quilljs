@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/post_form.css' %}">
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post">{% csrf_token %}
+        <div class="form-content">
+            <label for="title">답변: </label>
+            <input class="title-input" name="title" type="text" value="{{ post.title }}">
+            <input name="answer_delta" type="hidden">
+            <!--quill editor 영역-->
+            <div id="editor-container" class="container"></div>
+        </div>
+        <input id="btn-input" type="hidden" name="action">
+        <input class="btn btn-save" type="submit" name="action" value="save">
+        <input class="btn btn-submit" type="submit" name="action" value="publish">
+    </form>
+
+
+
+    <script>
+        // button when clicked
+
+        $("input.btn-save").click(function(e) {
+          e.preventDefault();
+          $("input.btn-save").addClass('btn-clicked');
+          // btn-input값 담기
+          $("#btn-input").val("save");
+          // ajax로 보낼 데이터 중 Delta값 담기
+          var answer_delta = document.querySelector('input[name="answer_delta"]');
+          answer_delta.value = JSON.stringify(quill.getContents());
+          // form 안 데이터 serialize하기
+          var form = document.querySelector('form');
+          var formData = $(form).serializeArray();
+
+          // ajax 요청으로 formaData를 해당 url을 통해 POST request(XMLHttpRequest) 보내기
+          $.ajax({
+                type : "POST",
+                url : "{% url 'quill:post_edit' username=post.author.username pk=post.pk %}",
+                cache : false,
+                data : formData,
+                // 요청이 성공일 때 호출되는 Callback 함수
+                success : function(data) {
+                    return;
+                },
+                // 요청이 실패할 때 호출되는 Callback 함수
+                error : onError
+          });
+
+          // ajax 요청 성공 또는 실패 -> alert 메시지 표시하기
+          function onSuccess(json, status){alert($.trim(json));}
+          function onError(data, status){alert("error");}
+
+          // 끝내지 않기
+          // return false;
+        });
+
+
+
+
+        $("input.btn-submit").click(function(e) {
+          e.preventDefault();
+          $("input.btn-submit").addClass('btn-clicked');
+          // btn-input값 담기
+          $("#btn-input").val("publish");
+          // ajax로 보낼 데이터 중 Delta값 담기
+          var answer_delta = document.querySelector('input[name="answer_delta"]');
+          answer_delta.value = JSON.stringify(quill.getContents());
+          // form 안 데이터 serialize하기
+          var form = document.querySelector('form')
+          var formData = $(form).serializeArray();
+          // form submit하기
+          form.submit();
+        });
+
+
+
+
+
+
+
+
+
+        // quill editor 객체
+
+        var quill = new Quill('#editor-container', {
+          modules: {
+            toolbar: [
+              [{ header: [1, 2, false] }],
+              ['bold', 'italic', 'underline'],
+              ['image', 'code-block']
+            ]
+          },
+          placeholder: 'Compose an epic...',
+          theme: 'snow'  // or 'bubble'
+        });
+
+
+        // 작성하던 기존 post 내용(Delta) 불러오기
+        quill.setContents(JSON.parse("{{ post.delta_content | escapejs }}"));
+
+
+        //console.log("{{ post.delta_content }}")
+        //console.log("{{ post.delta_content | escapejs }}")
+        //console.log(JSON.parse("{{ post.delta_content | escapejs }}"))
+        //escapejs => ({&quot;ops&quot;:[{&quot;insert&quot;:&quot;ds& quot;}]} => {"ops":[{"insert":"sadfasf\n"}]} 로 바꿔준다
+
+
+
+
+        // detail page에서 활용
+
+        <!--var quill = new Quill('#editor-container', {-->
+          <!--modules: { toolbar: [] },-->
+          <!--//theme: 'snow',-->
+          <!--readOnly: true,-->
+        <!--});-->
+
+
+
+
+        <!--// Delta 객체-->
+
+        <!--var Delta = Quill.import('delta');-->
+
+
+        <!--// quill editor 안의 내용이 변경되었을 떄의 action-->
+        <!--quill.on('text-change', function(delta) {-->
+            <!--console.log(delta)-->
+            <!--console.log(quill.root.innerHTML)-->
+        <!--});-->
+
+
+
+
+
+
+
+
+
+
+        <!--// 효율화시키고 싶음-->
+        <!--// form이 submit되었을 때의 action-->
+
+        <!--var form = document.querySelector('form')-->
+        <!--form.onsubmit = function(e) {-->
+            <!--//console.log(quill.getContents());-->
+            <!--//console.log(quill.root.innerHTML);-->
+            <!--console.log('hi');-->
+            <!--// e.preventDefault();-->
+
+            <!--// ajax로 보낼 데이터 중 Delta값 담기-->
+            <!--var answer_delta = document.querySelector('input[name="answer_delta"]');-->
+            <!--answer_delta.value = JSON.stringify(quill.getContents());-->
+
+            <!--// form으로 보내는 parameter serailize해서 formData에 담기-->
+            <!--var formData = $(form).serialize();-->
+
+            <!--console.log(formData);-->
+
+
+
+            <!--// ajax 요청으로 formaData를 해당 url을 통해 POST request(XMLHttpRequest) 보내기-->
+            <!--$.ajax({-->
+                    <!--type : "POST",-->
+                    <!--url : "{% url 'quill:post_edit' username=post.author.username pk=post.pk %}",-->
+                    <!--cache : false,-->
+                    <!--data : formData,-->
+                    <!--// 요청이 성공일 때 호출되는 Callback 함수-->
+                    <!--success : function(data) {-->
+                        <!--// console.log(data);-->
+                        <!--return;-->
+                    <!--},-->
+                    <!--// 요청이 실패할 때 호출되는 Callback 함수-->
+                    <!--error : onError-->
+			<!--});-->
+
+            <!--// ajax 요청 성공 또는 실패 -> alert 메시지 표시하기-->
+            <!--function onSuccess(json, status){alert($.trim(json));}-->
+	        <!--function onError(data, status){alert("error");}-->
+
+            <!--// 끝내지 않기-->
+            <!--return false;-->
+
+        <!--}-->
+
+    </script>
+
+{% endblock %}

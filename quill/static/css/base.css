@@ -1,0 +1,17 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: #1D1E30;
+    height: 60px;
+    color: white;
+}
+
+header h1 {
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+}

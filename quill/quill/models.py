@@ -7,8 +7,7 @@ from django.contrib.postgres.fields import JSONField
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
     title = models.CharField(max_length=50)
-    delta_content = JSONField()
-    html_content = models.TextField()
+    delta_content = JSONField(blank=True, null=True)
     published = models.BooleanField(default=False)
     created_date = models.DateTimeField(auto_now_add=True)
     published_date = models.DateTimeField(auto_now=True)

@@ -1,14 +1,84 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    hi
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/post_form.css' %}">
+{% endblock %}
 
+{% block content %}
+    <form action="" method="post">
+        <div class="form-content">
+            {% csrf_token %}
+            <label for="title">답변: </label>
+            <input class="title-input" name="title" type="text">
+            <input name="answer_delta" type="hidden">
+            <!--quill editor 영역-->
+            <div id="editor-container" class="container"></div>
+        </div>
+        <input class="btn btn-save" type="submit" name="action" value="save">
+        <input class="btn btn-submit" type="submit" name="action" value="publish">
+
+    </form>
+
+
+
+    <script>
+        // changing button when clicked
+
+        $("input.btn-save").click(function() {
+          $("input.btn-save").addClass('btn-clicked');
+        });
+
+        $("input.btn-submit").click(function() {
+          $("input.btn-submit").addClass('btn-clicked');
+        });
+
+
+
+        // quill editor 객체
+
+        var quill = new Quill('#editor-container', {
+          modules: {
+            toolbar: [
+              [{ header: [1, 2, false] }],
+              ['bold', 'italic', 'underline'],
+              ['image', 'code-block']
+            ]
+          },
+          placeholder: 'Compose an epic...',
+          theme: 'snow'  // or 'bubble'
+        });
+
+
+
+
+        // Delta 객체
+
+        var Delta = Quill.import('delta');
+
+
+        // quill editor 안의 내용이 변경되었을 떄의 action
+        quill.on('text-change', function(delta) {
+            console.log(delta)
+            console.log(quill.root.innerHTML)
+        });
+
+
+        // form이 submit되었을 때의 action
+
+        var form = document.querySelector('form')
+        form.onsubmit = function() {
+            //console.log(quill.getContents());
+            //console.log(quill.root.innerHTML);
+
+            var answer_delta = document.querySelector('input[name="answer_delta"]');
+            answer_delta.value = JSON.stringify(quill.getContents());
+
+            //return false;
+
+        }
+
+
+
+    </script>
+
+{% endblock %}

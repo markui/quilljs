@@ -1,0 +1,75 @@
+form {
+    position: relative;
+    margin-top: 20px;
+    width: 800px;
+
+}
+
+div.form-content{
+    display: inline-block;
+    width: 600px;
+}
+
+form label {
+    display: inline-block;
+    color: #1D1E30;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-bottom: 5px;
+}
+
+input.btn {
+    background-color: white;
+    position: absolute;
+    top: 30px;
+    left: 650px;
+    font-size: 15px;
+    color: #1D1E30;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #1D1E30;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 10px;
+    outline: none;
+}
+
+input.btn.btn-save {
+    top: 30px;
+    left: 650px;
+
+}
+
+input.btn.btn-submit {
+    top: 80px;
+    left: 650px;
+}
+
+
+input.btn.btn-clicked {
+    background-color: #1D1E30;
+    color: white;
+    font-weight: bold;
+}
+
+#editor-container {
+    height: 375px;
+
+}
+
+label {
+    position: relative;
+    top: 1px;
+}
+
+.title-input {
+    outline: none;
+    border-color: #1D1E30;
+    width: 545px;
+    height: 30px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    padding: 2px;
+    padding-left: 8px;
+}

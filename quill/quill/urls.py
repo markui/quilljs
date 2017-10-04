@@ -17,5 +17,6 @@ urlpatterns = [
     url('^(?P<username>\w+)/(?P<pk>\d+)/$', views.post_detail, name='post_detail'),  # /username/1/
 
     # post_edit page - 기존의 post 수정
-    url('^(?P<username>\w+)/(?P<pk>\d+)/write/$', views.post_edit, name='post_edit'),  # /username/1/write
+    url('^(?P<username>\w+)/(?P<pk>\d+)/write/$', views.post_edit, name='post_edit'), # /username/1/write
+
 ]
