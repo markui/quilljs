@@ -24,8 +24,11 @@
         // button when clicked
 
         $("input.btn-save").click(function(e) {
+          // 로딩시작 애니메이션 시작 코드
           e.preventDefault();
-          $("input.btn-save").addClass('btn-clicked');
+
+          // button 클릭했을 때, 클릭 뗏을떄 바뀌게 하기
+          $("input.btn-save").toggleClass('btn-clicked');
           // btn-input값 담기
           $("#btn-input").val("save");
           // ajax로 보낼 데이터 중 Delta값 담기
@@ -42,12 +45,14 @@
                 cache : false,
                 data : formData,
                 // 요청이 성공일 때 호출되는 Callback 함수
-                success : function(data) {
-                    return;
-                },
+                //success : function(data) {
+                    // $("input.btn-save").removeClass('btn-clicked');
+                    //return;
+                    // 애니메이션 끝나는 코드
+                //},
                 // 요청이 실패할 때 호출되는 Callback 함수
-                error : onError
-          });
+                //error : onError
+          },); //어떤 data를 받겠다 json, 과 같이 받는 datatype 설정 가능
 
           // ajax 요청 성공 또는 실패 -> alert 메시지 표시하기
           function onSuccess(json, status){alert($.trim(json));}
@@ -98,11 +103,12 @@
         });
 
 
-        // 작성하던 기존 post 내용(Delta) 불러오기
-        quill.setContents(JSON.parse("{{ post.delta_content | escapejs }}"));
+        // 작성하던 기존 post 내용(Delta) 불러오기 - django-jsonify, sanitization 유의
+        quill.setContents({{ post.delta_content|safe }});
 
-
+        // sanitization 유의!
         //console.log("{{ post.delta_content }}")
+        //console.log({{ post.delta_content|safe }})
         //console.log("{{ post.delta_content | escapejs }}")
         //console.log(JSON.parse("{{ post.delta_content | escapejs }}"))
         //escapejs => ({&quot;ops&quot;:[{&quot;insert&quot;:&quot;ds& quot;}]} => {"ops":[{"insert":"sadfasf\n"}]} 로 바꿔준다

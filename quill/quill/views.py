@@ -27,7 +27,6 @@ def write(request):
             return redirect('quill:published_list')
 
     # 처음 글쓰기 페이지로 온 경우 (GET)
-    else:
         return render(request, 'quill/post_form.html')
         # return HttpResponse('opens a text editor to publish/save posts')
 
