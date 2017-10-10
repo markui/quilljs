@@ -40,17 +40,17 @@
 [github-commit](https://github.com/namu617/quilljs/tree/e222996886894ba7a9988e83f036441100cc6967)
 
 #### 2-1) urls.py - views.py를 연결하여, HttpResponse 만을 사용해, 어떤 url로 접속했을 때 어떤 view의 기능이 실현되는가를 먼저 정리해서 전체적인 프로젝트의 틀을 잡았다.
-![1](/Users/markkim/Desktop/blog-projects/quilljs/1_url_view_connection.png)
+![1](project_images/1_url_view_connection.png)
 
 #### 2-2) 각 url로 접속했을 때 브라우저에 찍히는 HttpResponse 기능 정의 설명
-![1_run](/Users/markkim/Desktop/blog-projects/quilljs/1_runserver.png)
+![1_run](project_images/1_runserver.png)
 
 
 # 3. ERD(개체-관계 다이어그램) 그리기
 
 [lucid chart](https://www.lucidchart.com/) 라는 다이어그램 디자인 툴을 이용하여, models.py 에 바로 코딩을 하기 전에, 실수를 방지하기 위해 미리, ERD를 설계한다.
  
-![2_ERD](/Users/markkim/Desktop/blog-projects/quilljs/2_ERD.png)
+![2_ERD](project_images/2_ERD.png)
 
 
 
@@ -61,7 +61,7 @@
 완성된 ERD를 바탕으로 app 안의 models.py에 model을 작성한다.
 모든 attribute(속성)들과 더불어, view에서 필요할 것 같은, 함수로 호출하면 편할, 기능들도 method(메서드)로 최대한 정의해본다. 이후 메서드가 더 필요하면, migrate를 하지 않고도 메서드들을 원없이 추가할 수 있기에 지금 크게 걱정은 하지 않아도 된다.
 
-![2_ERD](/Users/markkim/Desktop/blog-projects/quilljs/3_models.png)
+![2_ERD](project_images/3_models.png)
 
 
 ### 4-1) author는 auth.User의 foreignkey를 받아올 `ForeignKey`
@@ -118,9 +118,9 @@
 
 ---
 ### 모델링을 완료한 후, `./manage.py makemigrations, migrate`, 그리고 `./manage.py shell_plus`를 통해, 가상의 한 `Post Object`을 생성한 후, 이가 DB에 원하는 format으로 저장이 잘되는지 확인한다.
-![3_psql](/Users/markkim/Desktop/blog-projects/quilljs/3_psql.png)
+![3_psql](project_images/3_psql.png)
 
-![3_psql_table](/Users/markkim/Desktop/blog-projects/quilljs/3_psql_table.png)
+![3_psql_table](project_images/3_psql_table.png)
 
 
 # 5. quill editor 자리 잡아 놓기
@@ -129,9 +129,9 @@
 
 ### 이를 위해, `post_form.html`에, quill-editor가 차지할 영역인 `<div id="editor-container"></div>`를 잡은 후, css로 적절한 `height`를 주고, quill cdn에서 불러온 Quill객체를 이용하여 `script`로 `div` 부분을 quill-editor로 바꿔준다.
 
-![4_quill](/Users/markkim/Desktop/blog-projects/quilljs/4_quill.png)
+![4_quill](project_images/4_quill.png)
 
-![4_quill_render](/Users/markkim/Desktop/blog-projects/quilljs/4_quill_render.png)
+![4_quill_render](project_images/4_quill_render.png)
 
 
 
@@ -142,7 +142,7 @@
 
 ### 글을 쓰는 플랫폼의 경우, 국내에서는 압도적으로 "브런치"가 소위 '글쟁이(?)'들에게는 글쓰기 좋다고 호평이 자자한 만큼, UX는 브런치의 에디터를 벤치마킹하기로 했다.
 
-![brunch](http://res.thegear.co.kr/images/20150708/20150708075502642198.png)
+![brunch](project_images/brunch_logo.png)
 
 ### 유저들이에게, 이미 검증된 서비스의 벤치마킹, 또는 Cloning을 해보는 작업은, 어떠한 점들을 전문가들이 염두에 두고 서비스를 기획했는가에 대해 짧은 시간에 공부할 수 있는 최고의 방법인 것 같다.
 
@@ -150,7 +150,7 @@
 ## 브런치(brunch)의 경우, 다음의 중요한 큰 흐름을 지니고 있다.
 
 # 1. 글쓰기(Create) 페이지
-![brunch_write](/Users/markkim/Desktop/blog-projects/quilljs/brunch_write.png)
+![brunch_write](project_images/brunch_write.png)
 
 #### 글을 처음 생성하는 페이지; 즉, django에서 생각해보면 처음으로 Post Model 객체를 생성한 후, 이를 DB에 `save`하는 페이지이다.
 
@@ -194,7 +194,7 @@
 #### 글을 수정하는 페이지; 즉 django에서 생각해보면 이미 DB 속에 record로 저장되어 있는 특정 유저의 몇 번째 Post를 `get`으로 갖고와, attriubte을 수정한 후, 이를 DB에 다시 `save`하는 페이지이다.
 
 
-![brunch_edit](/Users/markkim/Desktop/blog-projects/quilljs/brunch_edit.png)
+![brunch_edit](project_images/brunch_edit.png)
 
 #### 여기서, 브런치 에디터의 뛰어난 UX가 느껴지는데, 크게 2가지 포인트로 나눌 수 있다.
 
@@ -213,7 +213,7 @@ AJAX를 처음 사용해보는 나의 입장에서, **"이러한 경우가 AJAX�
 
 [quilljs 'text-change' 사용 케이스](https://quilljs.com/playground/#autosave)
 
-![quilljs_api](/Users/markkim/Desktop/blog-projects/quilljs/quilljs_autosave.png)
+![quilljs_api](project_images/quilljs_autosave.png)
 
 
 
@@ -251,9 +251,9 @@ quill.setContents(JSON.parse("{{ post.delta_content | escapejs }}"));
  
 
 
-![5_ajax](/Users/markkim/Desktop/blog-projects/quilljs/5_ajax.png)
+![5_ajax](project_images/5_ajax.png)
 
-![5_ajax_code](/Users/markkim/Desktop/blog-projects/quilljs/5_ajax_code.png)
+![5_ajax_code](project_images/5_ajax_code.png)
 
 
 ## 7-2) 글쓰기(생성) 및 글수정 페이지 구현
