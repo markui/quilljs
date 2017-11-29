@@ -27,8 +27,8 @@ def write(request):
             return redirect('quill:published_list')
 
     # 처음 글쓰기 페이지로 온 경우 (GET)
-        return render(request, 'quill/post_form.html')
-        # return HttpResponse('opens a text editor to publish/save posts')
+    return render(request, 'quill/post_form.html')
+    # return HttpResponse('opens a text editor to publish/save posts')
 
 
 # 저장된 post_list page
@@ -75,4 +75,5 @@ def post_edit(request, username, pk):
         context = {
             'post': post
         }
+        print(post.delta_content)
         return render(request, 'quill/post_edit_form.html', context)
